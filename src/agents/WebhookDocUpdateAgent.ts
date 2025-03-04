@@ -445,16 +445,8 @@ export class WebhookDocUpdateAgent extends BaseAgent {
           change.filename.includes("/test/") ||
           change.filename.includes(".test.") ||
           change.filename.includes(".spec.");
-        const isProbablyPublicAPI =
-          change.filename.includes("Provider") ||
-          change.filename.includes("provider") ||
-          change.filename.includes("interface") ||
-          change.filename.includes("public") ||
-          change.filename.includes("exports") ||
-          change.filename.includes("/src/") ||
-          !change.filename.includes("internal");
 
-        return isCodeFile && !isTestFile && isProbablyPublicAPI;
+        return isCodeFile && !isTestFile;
       });
 
       if (codeFileChanges.length === 0) {
