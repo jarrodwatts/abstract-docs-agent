@@ -256,6 +256,8 @@ export class GitHubSource implements Source<GitHubCommit | null> {
         );
 
         // Flatten the array of arrays
+        console.log(contents);
+
         return contents.flat();
       }
 

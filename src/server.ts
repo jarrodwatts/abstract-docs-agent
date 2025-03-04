@@ -57,11 +57,6 @@ async function main() {
     // Set up a route for GitHub webhooks with error handling
     app.post("/webhook", async (req, res) => {
       try {
-        console.log(
-          "Received webhook request with headers:",
-          JSON.stringify(req.headers, null, 2)
-        );
-
         // Get the event type from headers
         const eventHeader = req.headers["x-github-event"];
         const signatureHeader = req.headers["x-hub-signature-256"];
@@ -76,8 +71,6 @@ async function main() {
           ? deliveryHeader[0]
           : deliveryHeader;
 
-        console.log(`Processing ${event} event`);
-
         if (!event || !signature || !delivery) {
           throw new Error("Missing required webhook headers");
         }
@@ -87,18 +80,12 @@ async function main() {
           req.body.toString("utf8"), // Convert Buffer to string
           signature
         );
-        console.log("Webhook signature verified successfully");
 
         // Now decode and parse the payload
         const rawBody = req.body.toString("utf8");
-        console.log("Raw body string:", rawBody.substring(0, 100) + "...");
 
         const decodedPayload = decodeURIComponent(
           rawBody.replace(/^payload=/, "")
-        );
-        console.log(
-          "Decoded payload preview:",
-          decodedPayload.substring(0, 100) + "..."
         );
 
         // Parse the JSON payload
